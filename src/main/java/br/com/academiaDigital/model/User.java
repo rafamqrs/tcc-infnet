@@ -28,15 +28,14 @@ public class User {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataNascimento;
 	private String endereco;
+	private String cpf;
 	private String cep;
 	private boolean enabled;
+	private String telefone;
 	private String password;
 	@Enumerated(EnumType.STRING)
 	@Column(name = "user_role")
 	private Role role;
-	private String formaPagamento;
-	@OneToOne
-	private Pagamento pagamento;
 
 	private Date dataCadastro;
 
@@ -128,11 +127,19 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	public String getFormaPagamento() {
-		return formaPagamento;
+	public String getTelefone() {
+		return telefone;
 	}
 
-	public void setFormaPagamento(String formaPagamento) {
-		this.formaPagamento = formaPagamento;
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 }

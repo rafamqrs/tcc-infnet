@@ -1,8 +1,12 @@
 package br.com.academiaDigital.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Exercicio {
@@ -12,8 +16,11 @@ public class Exercicio {
 	private String nome;
 	private String descricao;
 	private int qtdRepeticao;
+	private int numExercicios;
 	private String tipoMuscular;
 	private float peso;
+	@ManyToMany(mappedBy="exercicios", fetch=FetchType.EAGER)
+	private List<Serie> series;
 
 	public Exercicio() {
 		// TODO Auto-generated constructor stub
@@ -65,5 +72,29 @@ public class Exercicio {
 
 	public void setPeso(float peso) {
 		this.peso = peso;
+	}
+
+	public int getNumExercicios() {
+		return numExercicios;
+	}
+
+	public void setNumExercicios(int numExercicios) {
+		this.numExercicios = numExercicios;
+	}
+
+	public int getIdExercicio() {
+		return idExercicio;
+	}
+
+	public void setIdExercicio(int idExercicio) {
+		this.idExercicio = idExercicio;
+	}
+
+	public List<Serie> getSeries() {
+		return series;
+	}
+
+	public void setSeries(List<Serie> series) {
+		this.series = series;
 	}
 }

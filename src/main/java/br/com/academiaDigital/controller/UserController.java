@@ -1,9 +1,5 @@
 package br.com.academiaDigital.controller;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import org.apache.commons.lang.RandomStringUtils;
@@ -22,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.academiaDigital.model.User;
@@ -52,6 +49,13 @@ public class UserController {
 	public ModelAndView contactUser() {
 		return new ModelAndView("user/contact");
 	}
+	
+	@RequestMapping(value = "/listarUsuarios", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> listarPagamentos() {
+		Locale locale = new Locale("pt_BR");
+		return createListAllResponse(0, locale, "");
+	}
+	
 
 	@RequestMapping(value = "/alterarSenha", method = RequestMethod.GET)
 	public ModelAndView senhaUser(@ModelAttribute("user") User user) {
@@ -115,6 +119,15 @@ public class UserController {
 
 	private ResponseEntity<?> createListAllResponse(int page, Locale locale) {
 		return createListAllResponse(page, locale, null);
+	}
+	
+
+	@RequestMapping(value="/getUser/{id}", method = RequestMethod.GET)
+	public @ResponseBody User getShopInJSON(@PathVariable String id) {
+		int idUsuario = Integer.parseInt(id); 
+		User user = userService.findById(idUsuario);
+		System.out.println(user.getEmail());
+		return user;
 	}
 
 	private ResponseEntity<?> createListAllResponse(int page, Locale locale,

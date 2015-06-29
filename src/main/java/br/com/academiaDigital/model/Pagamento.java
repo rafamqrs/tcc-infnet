@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Pagamento {
@@ -12,6 +14,8 @@ public class Pagamento {
 	@GeneratedValue
 	private int idPagamento;
 	private String formaPagamento;
+	private boolean ativo;
+	@Temporal(TemporalType.DATE)
 	private Date dataCadastro;
 
 	public Pagamento() {
@@ -41,4 +45,11 @@ public class Pagamento {
 		this.dataCadastro = dataCadastro;
 	}
 
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
 }

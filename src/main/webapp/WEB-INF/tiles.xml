@@ -40,6 +40,10 @@
 	<definition name="pagamentoList" extends="master.page">
 		<put-attribute name="body" value="/protected/pagamento/cadPagamento.jsp" />
 	</definition>
+	<!-- Pagamento -->
+	<definition name="financeiroList" extends="master.page">
+		<put-attribute name="body" value="/protected/financeiro/cadFinanceiro.jsp" />
+	</definition>
 	<!-- LOGIN -->
 	<definition name="login" extends="master.page">
 		<put-attribute name="header" value="" />

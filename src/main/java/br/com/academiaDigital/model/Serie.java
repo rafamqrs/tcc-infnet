@@ -6,24 +6,37 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="serie")
+@Table(name = "serie")
 public class Serie {
-	
+
 	@Id
 	@GeneratedValue
 	private int idSerie;
 	private String nome;
-	@OneToMany
-	@JoinColumn(name="idExercicios")
+	private String tipoSerie;
+	private boolean enable;
+	@ManyToMany
+	@JoinTable(name = "exercicio_serie", joinColumns = @JoinColumn(name = "idSerie"), inverseJoinColumns = @JoinColumn(name = "idExercicio"))
 	private List<Exercicio> exercicios;
-	@ManyToMany(mappedBy="series")
+	@OneToMany(mappedBy = "serie")
 	private List<Aluno> alunos;
-	
+	@javax.persistence.Transient
+	private List<String> idExercicios;
+
+	public List<String> getIdExercicios() {
+		return idExercicios;
+	}
+
+	public void setIdExercicios(List<String> idExercicios) {
+		this.idExercicios = idExercicios;
+	}
+
 	public Serie() {
 	}
 
@@ -57,5 +70,21 @@ public class Serie {
 
 	public void setExercicios(List<Exercicio> exercicios) {
 		this.exercicios = exercicios;
+	}
+
+	public String getTipoSerie() {
+		return tipoSerie;
+	}
+
+	public void setTipoSerie(String tipoSerie) {
+		this.tipoSerie = tipoSerie;
+	}
+
+	public boolean isEnable() {
+		return enable;
+	}
+
+	public void setEnable(boolean enable) {
+		this.enable = enable;
 	}
 }

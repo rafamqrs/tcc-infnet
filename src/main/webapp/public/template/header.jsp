@@ -23,13 +23,17 @@
 
 				<sec:authorize ifAnyGranted="ROLE_ADMIN">
 					<li class="dropdown"
-						ng-class="{'gray': activeURL == 'adm', '': activeURL != 'adm'}"><a
+						ng-class="{'gray': activeURL == 'pagamento', '': activeURL != 'pagamento'}"><a
 						class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message
 								code="header.adm" /> <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="<c:url value='/protected/pagamento'/>"><spring:message
 										code="header.pagamento" /></a></li>
-						</ul></li>
+							<li><a href="<c:url value='/protected/financeiro'/>"><spring:message
+										code="financeiro" /></a></li>
+					
+						</ul>
+					</li>
 					<li
 						ng-class="{'gray': activeURL == 'user', '': activeURL != 'user'}"><a
 						title='<spring:message code="header.user"/>'
@@ -82,69 +86,3 @@
 	</div>
 </nav>
 
-
-
-
-
-<!--  
-<div class="masthead">
-	<nav class="navbar navbar-inverse"></nav>
-	<div class="navbar navbar-default">
-		<div class="navbar-inner">
-			<div class="container">
-				<ul class="nav" ng-controller="LocationController">
-					<li
-						ng-class="{'active': activeURL == 'home', '': activeURL != 'home'}">
-						<a href="<c:url value="/"/>"
-						title='<spring:message code="header.home"/>'>
-							<p>
-								<spring:message code="header.home" />
-							</p>
-					</a>
-					</li>
-					<sec:authorize ifAnyGranted="ROLE_ADMIN">
-						<li
-							ng-class="{'gray': activeURL == 'contacts', '': activeURL != 'contacts'}"><a
-							title='<spring:message code="header.contacts"/>'
-							href="<c:url value='/protected/contacts'/>"><p>
-									<spring:message code="header.contacts" />
-								</p></a></li>
-
-						<li
-							ng-class="{'gray': activeURL == 'user', '': activeURL != 'user'}"><a
-							title='<spring:message code="header.user"/>'
-							href="<c:url value='/protected/user'/>"><p>
-									<spring:message code="header.user" />
-								</p></a></li>
-					</sec:authorize>
-				</ul>
-				<div class="pull-right">
-					<ul class="nav pull-right">
-
-						<li class="dropdown"><span style="float: right"> <spring:message
-									code='sample.languages' /> <a href="?lang=en">EN</a> | <a
-								href="?lang=pt">PT</a>
-						</span> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-								class="icon-user"></i>${user.name } <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="<c:url value='/protected/user/preference'/>"><i
-										class="icon-cog"></i> Preferences</a></li>
-								<li><a href="<c:url value='/protected/user/alterarSenha'/>"><i
-										class="icon-cog"></i> <spring:message code="user.mudarsenha" /></a></li>
-								<sec:authorize ifAnyGranted="ROLE_USER">
-									<li><a href="<c:url value='/protected/user/contact'/>"><i
-											class="icon-envelope"></i> <spring:message
-												code="user.contact" /></a></li>
-								</sec:authorize>
-								<li class="divider"></li>
-								<li><a href="<c:url value='/logout' />"><i
-										class="icon-off"></i> <spring:message code="header.logout" /></a></li>
-							</ul></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
--->

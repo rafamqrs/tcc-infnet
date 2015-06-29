@@ -1,253 +1,283 @@
 function pagamentoController($scope, $http) {
-    $scope.pageToGet = 0;
+	$scope.pageToGet = 0;
 
-    $scope.state = 'busy';
+	$scope.state = 'busy';
 
-    $scope.lastAction = '';
+	$scope.lastAction = '';
 
-    $scope.url = "/academiaDigital/protected/pagamento/";
+	$scope.url = "/academiaDigital/protected/pagamento/";
 
-    $scope.errorOnSubmit = false;
-    $scope.errorIllegalAccess = false;
-    $scope.displayMessageToUser = false;
-    $scope.displayValidationError = false;
-    $scope.displaySearchMessage = false;
-    $scope.displaySearchButton = false;
-    $scope.displayCreateContactButton = false;
+	$scope.errorOnSubmit = false;
+	$scope.errorIllegalAccess = false;
+	$scope.displayMessageToUser = false;
+	$scope.displayValidationError = false;
+	$scope.displaySearchMessage = false;
+	$scope.displaySearchButton = false;
+	$scope.displayCreateContactButton = false;
+	$scope.dangerMsg = false;
+	$scope.infoMsg = false;
 
-    $scope.contact = {}
+	$scope.pagamentos = {}
 
-    $scope.searchFor = ""
+	$scope.searchFor = ""
 
-    $scope.getContactList = function () {
-        var url = $scope.url;
-        $scope.lastAction = 'list';
+	$scope.getContactList = function() {
+		var url = $scope.url;
+		$scope.lastAction = 'list';
 
-        $scope.startDialogAjaxRequest();
+		$scope.startDialogAjaxRequest();
 
-        var config = {params: {page: $scope.pageToGet}};
+		var config = {
+			params : {
+				page : $scope.pageToGet
+			}
+		};
 
-        $http.get(url, config)
-            .success(function (data) {
-                $scope.finishAjaxCallOnSuccess(data, null, false);
-            })
-            .error(function () {
-                $scope.state = 'error';
-                $scope.displayCreateContactButton = false;
-            });
-    }
+		$http.get(url, config).success(function(data) {
+			$scope.finishAjaxCallOnSuccess(data, null, false);
+		}).error(function() {
+			$scope.state = 'error';
+			$scope.displayCreateContactButton = false;
+		});
+	}
 
-    $scope.populateTable = function (data) {
-        if (data.pagesCount > 0) {
-            $scope.state = 'list';
+	$scope.populateTable = function(data) {
+		if (data.pagesCount > 0) {
+			$scope.state = 'list';
 
-            $scope.page = {source: data.contacts, currentPage: $scope.pageToGet, pagesCount: data.pagesCount, totalContacts : data.totalContacts};
+			$scope.page = {
+				source : data.pagamentos,
+				currentPage : $scope.pageToGet,
+				pagesCount : data.pagesCount,
+				totalContacts : data.totalPagamento
+			};
 
-            if($scope.page.pagesCount <= $scope.page.currentPage){
-                $scope.pageToGet = $scope.page.pagesCount - 1;
-                $scope.page.currentPage = $scope.page.pagesCount - 1;
-            }
+			if ($scope.page.pagesCount <= $scope.page.currentPage) {
+				$scope.pageToGet = $scope.page.pagesCount - 1;
+				$scope.page.currentPage = $scope.page.pagesCount - 1;
+			}
 
-            $scope.displayCreateContactButton = true;
-            $scope.displaySearchButton = true;
-        } else {
-            $scope.state = 'noresult';
-            $scope.displayCreateContactButton = true;
+			$scope.displayCreateContactButton = true;
+			$scope.displaySearchButton = true;
+		} else {
+			$scope.state = 'noresult';
+			$scope.displayCreateContactButton = true;
 
-            if(!$scope.searchFor){
-                $scope.displaySearchButton = false;
-            }
-        }
+			if (!$scope.searchFor) {
+				$scope.displaySearchButton = false;
+			}
+		}
 
-        if (data.actionMessage || data.searchMessage) {
-            $scope.displayMessageToUser = $scope.lastAction != 'search';
+		if (data.actionMessage || data.searchMessage) {
+			$scope.displayMessageToUser = $scope.lastAction != 'search';
 
-            $scope.page.actionMessage = data.actionMessage;
-            $scope.page.searchMessage = data.searchMessage;
-        } else {
-            $scope.displayMessageToUser = false;
-        }
-    }
+			$scope.page.actionMessage = data.actionMessage;
+			$scope.page.searchMessage = data.searchMessage;
+		} else {
+			$scope.displayMessageToUser = false;
+		}
+	}
 
-    $scope.changePage = function (page) {
-        $scope.pageToGet = page;
+	$scope.changePage = function(page) {
+		$scope.pageToGet = page;
 
-        if($scope.searchFor){
-            $scope.searchContact($scope.searchFor, true);
-        } else{
-            $scope.getContactList();
-        }
-    };
+		if ($scope.searchFor) {
+			$scope.searchContact($scope.searchFor, true);
+		} else {
+			$scope.getContactList();
+		}
+	};
 
-    $scope.exit = function (modalId) {
-        $(modalId).modal('hide');
+	$scope.exit = function(modalId) {
+		$(modalId).modal('hide');
 
-        $scope.contact = {};
-        $scope.errorOnSubmit = false;
-        $scope.errorIllegalAccess = false;
-        $scope.displayValidationError = false;
-    }
+		$scope.contact = {};
+		$scope.errorOnSubmit = false;
+		$scope.errorIllegalAccess = false;
+		$scope.displayValidationError = false;
+	}
 
-    $scope.finishAjaxCallOnSuccess = function (data, modalId, isPagination) {
-        $scope.populateTable(data);
-        $("#loadingModal").modal('hide');
+	$scope.finishAjaxCallOnSuccess = function(data, modalId, isPagination) {
+		$scope.populateTable(data);
+		$("#loadingModal").modal('hide');
 
-        if(!isPagination){
-            if(modalId){
-                $scope.exit(modalId);
-            }
-        }
+		if (!isPagination) {
+			if (modalId) {
+				$scope.exit(modalId);
+			}
+		}
 
-        $scope.lastAction = '';
-    }
+		$scope.lastAction = '';
+	}
 
-    $scope.startDialogAjaxRequest = function () {
-        $scope.displayValidationError = false;
-        $("#loadingModal").modal('show');
-        $scope.previousState = $scope.state;
-        $scope.state = 'busy';
-    }
+	$scope.startDialogAjaxRequest = function() {
+		$scope.displayValidationError = false;
+		$("#loadingModal").modal('show');
+		$scope.previousState = $scope.state;
+		$scope.state = 'busy';
+	}
 
-    $scope.handleErrorInDialogs = function (status) {
-        $("#loadingModal").modal('hide');
-        $scope.state = $scope.previousState;
+	$scope.handleErrorInDialogs = function(status) {
+		$("#loadingModal").modal('hide');
+		$scope.state = $scope.previousState;
 
-        // illegal access
-        if(status == 403){
-            $scope.errorIllegalAccess = true;
-            return;
-        }
+		// illegal access
+		if (status == 403) {
+			$scope.errorIllegalAccess = true;
+			return;
+		}
 
-        $scope.errorOnSubmit = true;
-        $scope.lastAction = '';
-    }
+		$scope.errorOnSubmit = true;
+		$scope.lastAction = '';
+	}
 
-    $scope.addSearchParametersIfNeeded = function(config, isPagination) {
-        if(!config.params){
-            config.params = {};
-        }
+	$scope.addSearchParametersIfNeeded = function(config, isPagination) {
+		if (!config.params) {
+			config.params = {};
+		}
 
-        config.params.page = $scope.pageToGet;
+		config.params.page = $scope.pageToGet;
 
-        if($scope.searchFor){
-            config.params.searchFor = $scope.searchFor;
-        }
-    }
+		if ($scope.searchFor) {
+			config.params.searchFor = $scope.searchFor;
+		}
+	}
 
-    $scope.resetContact = function(){
-        $scope.contact = {};
-    };
+	$scope.resetPagamento = function() {
+		$scope.pagamento = {};
+	};
 
-    $scope.createContact = function (newContactForm) {
-        if (!newContactForm.$valid) {
-            $scope.displayValidationError = true;
-            return;
-        }
+	$scope.createPagamento = function(newPagamentoForm) {
+		if (!newPagamentoForm.$valid) {
+			$scope.displayValidationError = true;
+			return;
+		}
 
-        $scope.lastAction = 'create';
+		$scope.lastAction = 'create';
 
-        var url = $scope.url;
+		var url = $scope.url;
 
-        var config = {headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}};
+		var config = {
+			headers : {
+				'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+			}
+		};
 
-        $scope.addSearchParametersIfNeeded(config, false);
+		$scope.addSearchParametersIfNeeded(config, false);
 
-        $scope.startDialogAjaxRequest();
+		$scope.startDialogAjaxRequest();
 
-        $http.post(url, $.param($scope.contact), config)
-            .success(function (data) {
-                $scope.finishAjaxCallOnSuccess(data, "#addContactsModal", false);
-            })
-            .error(function(data, status, headers, config) {
-                $scope.handleErrorInDialogs(status);
-            });
-    };
+		$http.post(url, $.param($scope.pagamento), config).success(
+				function(data) {
+					$scope.infoMsg = true;
+					$scope.finishAjaxCallOnSuccess(data, "#addPagamentoModal",
+							false);
+				}).error(function(data, status, headers, config) {
+			$scope.dangerMsg = true;
+			$scope.handleErrorInDialogs(status);
+		});
+	};
 
-    $scope.selectedContact = function (contact) {
-        var selectedContact = angular.copy(contact);
-        $scope.contact = selectedContact;
-    }
+	$scope.selectedPagamento = function(id, tipo) {
+		$scope.dangerMsg = false;
+		$scope.infoMsg = false;
+		$scope.idPagamento = id;
+		$scope.name = tipo;
 
-    $scope.updateContact = function (updateContactForm) {
-        if (!updateContactForm.$valid) {
-            $scope.displayValidationError = true;
-            return;
-        }
+	}
 
-        $scope.lastAction = 'update';
+	$scope.selecionar = function(pagamento) {
+		$scope.dangerMsg = false;
+		$scope.infoMsg = false;
+		$scope.pagamento = pagamento;
+	}
 
-        var url = $scope.url + $scope.contact.id;
+	$scope.updatePagamento = function(updatePagamentoForm) {
+		if (!updatePagamentoForm.$valid) {
+			$scope.displayValidationError = true;
+			return;
+		}
 
-        $scope.startDialogAjaxRequest();
+		$scope.lastAction = 'update';
 
-        var config = {}
+		var url = $scope.url + $scope.pagamento.idPagamento;
 
-        $scope.addSearchParametersIfNeeded(config, false);
-        console.log($scope.contact);
-        $http.put(url, $scope.contact, config)
-            .success(function (data) {
-                $scope.finishAjaxCallOnSuccess(data, "#updateContactsModal", false);
-            })
-            .error(function(data, status, headers, config) {
-                $scope.handleErrorInDialogs(status);
-            });
-    };
+		$scope.startDialogAjaxRequest();
 
-    $scope.searchContact = function (searchContactForm, isPagination) {
-        if (!($scope.searchFor) && (!searchContactForm.$valid)) {
-            $scope.displayValidationError = true;
-            return;
-        }
+		var config = {}
 
-        $scope.lastAction = 'search';
+		$scope.addSearchParametersIfNeeded(config, false);
+		$http.put(url, $scope.pagamento, config).success(
+				function(data) {
+					$scope.infoMsg = true;
+					$scope.finishAjaxCallOnSuccess(data,
+							"#updatePagamentoModal", false);
+				}).error(function(data, status, headers, config) {
+			$scope.dangerMsg = true;
+			$scope.handleErrorInDialogs(status);
+		});
+	};
 
-        var url = $scope.url +  $scope.searchFor;
+	$scope.searchContact = function(searchContactForm, isPagination) {
+		if (!($scope.searchFor) && (!searchContactForm.$valid)) {
+			$scope.displayValidationError = true;
+			return;
+		}
 
-        $scope.startDialogAjaxRequest();
+		$scope.lastAction = 'search';
 
-        var config = {};
+		var url = $scope.url + $scope.searchFor;
 
-        if($scope.searchFor){
-            $scope.addSearchParametersIfNeeded(config, isPagination);
-        }
+		$scope.startDialogAjaxRequest();
 
-        $http.get(url, config)
-            .success(function (data) {
-                $scope.finishAjaxCallOnSuccess(data, "#searchContactsModal", isPagination);
-                $scope.displaySearchMessage = true;
-            })
-            .error(function(data, status, headers, config) {
-                $scope.handleErrorInDialogs(status);
-            });
-    };
+		var config = {};
 
-    $scope.deleteContact = function () {
-        $scope.lastAction = 'delete';
+		if ($scope.searchFor) {
+			$scope.addSearchParametersIfNeeded(config, isPagination);
+		}
 
-        var url = $scope.url + $scope.contact.id;
+		$http.get(url, config).success(
+				function(data) {
+					$scope.finishAjaxCallOnSuccess(data,
+							"#searchContactsModal", isPagination);
+					$scope.displaySearchMessage = true;
+				}).error(function(data, status, headers, config) {
+			$scope.handleErrorInDialogs(status);
+		});
+	};
 
-        $scope.startDialogAjaxRequest();
+	$scope.deletar = function() {
+		$scope.lastAction = 'delete';
 
-        var params = {searchFor: $scope.searchFor, page: $scope.pageToGet};
+		var url = $scope.url + $scope.idPagamento;
 
-        $http({
-            method: 'DELETE',
-            url: url,
-            params: params
-        }).success(function (data) {
-                $scope.resetContact();
-                $scope.finishAjaxCallOnSuccess(data, "#deleteContactsModal", false);
-            }).error(function(data, status, headers, config) {
-                $scope.handleErrorInDialogs(status);
-            });
-    };
+		$scope.startDialogAjaxRequest();
 
-    $scope.resetSearch = function(){
-        $scope.searchFor = "";
-        $scope.pageToGet = 0;
-        $scope.getContactList();
-        $scope.displaySearchMessage = false;
-    }
+		var params = {
+			searchFor : $scope.searchFor,
+			page : $scope.pageToGet
+		};
 
-    $scope.getContactList();
+		$http({
+			method : 'DELETE',
+			url : url,
+			params : params
+		}).success(function(data) {
+			$scope.infoMsg = true;
+			$scope.resetPagamento();
+			$scope.finishAjaxCallOnSuccess(data, "#deletar", false);
+		}).error(function(data, status, headers, config) {
+			$scope.dangerMsg = true;
+			$scope.handleErrorInDialogs(status);
+		});
+	};
+
+	$scope.resetSearch = function() {
+		$scope.searchFor = "";
+		$scope.pageToGet = 0;
+		$scope.getContactList();
+		$scope.displaySearchMessage = false;
+	}
+
+	$scope.getContactList();
 }

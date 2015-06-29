@@ -33,33 +33,36 @@ public class ExercicioController {
 	@Value("5")
 	private int maxResults;
 
-
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView welcome() {
 		return new ModelAndView("exercicioList");
 	}
-	
-    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> listAll(@RequestParam int page, Locale locale) {
-        return createListAllResponse(page, locale);
-    }
-    
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> create(@ModelAttribute("exercicio") Exercicio exercicio,
-                                    @RequestParam(required = false) String searchFor,
-                                    @RequestParam(required = false, defaultValue = DEFAULT_PAGE_DISPLAYED_TO_USER) int page,
-                                    Locale locale) {
-    	service.save(exercicio);
 
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> listAll(@RequestParam int page, Locale locale) {
+		try {
+			return createListAllResponse(page, locale);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return createListAllResponse(page, locale);
+		}
+	}
 
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<?> create(
+			@ModelAttribute("exercicio") Exercicio exercicio,
+			@RequestParam(required = false) String searchFor,
+			@RequestParam(required = false, defaultValue = DEFAULT_PAGE_DISPLAYED_TO_USER) int page,
+			Locale locale) {
+		service.save(exercicio);
 
-        return createListAllResponse(page, locale, "message.create.success");
-    }
-    
-    private ResponseEntity<?> createListAllResponse(int page, Locale locale) {
-        return createListAllResponse(page, locale, null);
-    }
-    
+		return createListAllResponse(page, locale, "message.create.success");
+	}
+
+	private ResponseEntity<?> createListAllResponse(int page, Locale locale) {
+		return createListAllResponse(page, locale, null);
+	}
+
 	@RequestMapping(value = "/{exercicioId}", method = RequestMethod.DELETE, produces = "application/json")
 	public ResponseEntity<?> delete(
 			@PathVariable("exercicioId") int exercicioId,
@@ -76,32 +79,45 @@ public class ExercicioController {
 		return createListAllResponse(page, locale, "message.delete.success");
 	}
 
-    
-    private ResponseEntity<?> createListAllResponse(int page, Locale locale, String messageKey) {
-        ExercicioListVO contactListVO = listAll(page);
+	private ResponseEntity<?> createListAllResponse(int page, Locale locale,
+			String messageKey) {
+		ExercicioListVO contactListVO = listAll(page);
 
-        addActionMessageToVO(contactListVO, locale, messageKey, null);
+		addActionMessageToVO(contactListVO, locale, messageKey, null);
 
-        return returnListToUser(contactListVO);
-    }
-    
-    private ExercicioListVO listAll(int page) {
-        return service.findAll(page, maxResults);
-    }
-    
-    private ExercicioListVO addActionMessageToVO(ExercicioListVO exerciciosListVO, Locale locale, String actionMessageKey, Object[] args) {
-        if (StringUtils.isEmpty(actionMessageKey)) {
-            return exerciciosListVO;
-        }
+		return returnListToUser(contactListVO);
+	}
 
-        exerciciosListVO.setActionMessage(messageSource.getMessage(actionMessageKey, args, null, locale));
+	private ExercicioListVO listAll(int page) {
+		return service.findAll(page, maxResults);
+	}
 
-        return exerciciosListVO;
-    }
-    
-    private ResponseEntity<ExercicioListVO> returnListToUser(ExercicioListVO exercicioList) {
-        return new ResponseEntity<ExercicioListVO>(exercicioList, HttpStatus.OK);
-    }
-    
+	private ExercicioListVO addActionMessageToVO(
+			ExercicioListVO exerciciosListVO, Locale locale,
+			String actionMessageKey, Object[] args) {
+		if (StringUtils.isEmpty(actionMessageKey)) {
+			return exerciciosListVO;
+		}
 
+		exerciciosListVO.setActionMessage(messageSource.getMessage(
+				actionMessageKey, args, null, locale));
+
+		return exerciciosListVO;
+	}
+
+	private ResponseEntity<ExercicioListVO> returnListToUser(
+			ExercicioListVO exercicioList) {
+		return new ResponseEntity<ExercicioListVO>(exercicioList, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/listarExercicios", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> listarExercicios() {
+		Locale locale = new Locale("pt_BR");
+		try {
+			return createListAllResponse(0, locale, "");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return createListAllResponse(0, locale, "");
+		}
+	}
 }

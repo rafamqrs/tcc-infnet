@@ -11,6 +11,11 @@
 	rel="stylesheet" />
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<style>
+[ng\:cloak], [ng-cloak], .ng-cloak {
+	display: none !important;
+}
+</style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script
@@ -24,12 +29,63 @@
 	src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
 <script src="<c:url value='/resources/js/angular.min.js' />"></script>
 <script src="<c:url value='/resources/js/angular-payment.js' />"></script>
+<script
+	src="<c:url value='/resources/js/angularjs-dropdown-multiselect.min.js' />"></script>
+<script
+	src="<c:url value='/resources/js/util.js' />"></script>
+<script type="text/javascript">
+	(function($) {
+		$(function() {
 
-<style>
-[ng\:cloak], [ng-cloak], .ng-cloak {
-	display: none !important;
-}
-</style>
+			var addFormGroup = function(event) {
+				event.preventDefault();
+
+				var $formGroup = $(this).closest('.form-group');
+				var $multipleFormGroup = $formGroup
+						.closest('.multiple-form-group');
+				var $formGroupClone = $formGroup.clone();
+
+				$(this)
+						.toggleClass(
+								'btn-default btn-add btn-danger btn-remove')
+						.html('–');
+
+				$formGroupClone.find('input').val('');
+				$formGroupClone.insertAfter($formGroup);
+
+				var $lastFormGroupLast = $multipleFormGroup
+						.find('.form-group:last');
+				if ($multipleFormGroup.data('max') <= countFormGroup($multipleFormGroup)) {
+					$lastFormGroupLast.find('.btn-add').attr('disabled', true);
+				}
+			};
+
+			var removeFormGroup = function(event) {
+				event.preventDefault();
+
+				var $formGroup = $(this).closest('.form-group');
+				var $multipleFormGroup = $formGroup
+						.closest('.multiple-form-group');
+
+				var $lastFormGroupLast = $multipleFormGroup
+						.find('.form-group:last');
+				if ($multipleFormGroup.data('max') >= countFormGroup($multipleFormGroup)) {
+					$lastFormGroupLast.find('.btn-add').attr('disabled', false);
+				}
+
+				$formGroup.remove();
+			};
+
+			var countFormGroup = function($form) {
+				return $form.find('.form-group').length;
+			};
+
+			$(document).on('click', '.btn-add', addFormGroup);
+			$(document).on('click', '.btn-remove', removeFormGroup);
+
+		});
+	})(jQuery);
+</script>
 </head>
 <body>
 	<div class="container">

@@ -8,54 +8,85 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 @Entity
-@Table(name="bioimpedancia")
+@Table(name = "bioimpedancia")
 public class Bioimpedancia {
 	@Id
 	@GeneratedValue
 	private int idBio;
-	private double massaGorda;
-	private double massaMagra;
-	private double aguaCorporal;
 	private Date dataAvaliacao;
+	private double peso;
+	private double ffm;
+	private double massaMascular;
+	private double imc;
+	private double idadeMetabolica;
 	@OneToOne
-	@JoinColumn(name="bioimpedancia")
+	@JoinColumn(name = "bioimpedancia")
 	private User usuario;
+
 	public int getIdBio() {
 		return idBio;
 	}
+
 	public void setIdBio(int idBio) {
 		this.idBio = idBio;
 	}
-	public double getMassaGorda() {
-		return massaGorda;
+
+	public double getPeso() {
+		return peso;
 	}
-	public void setMassaGorda(double massaGorda) {
-		this.massaGorda = massaGorda;
+
+	public void setPeso(double peso) {
+		this.peso = peso;
 	}
-	public double getMassaMagra() {
-		return massaMagra;
+
+	public double getFfm() {
+		return ffm;
 	}
-	public void setMassaMagra(double massaMagra) {
-		this.massaMagra = massaMagra;
+
+	public void setFfm(double ffm) {
+		this.ffm = ffm;
 	}
-	public double getAguaCorporal() {
-		return aguaCorporal;
+
+	public double getMassaMascular() {
+		return massaMascular;
 	}
-	public void setAguaCorporal(double aguaCorporal) {
-		this.aguaCorporal = aguaCorporal;
+
+	public void setMassaMascular(double massaMascular) {
+		this.massaMascular = massaMascular;
 	}
+
+	public double getImc() {
+		return imc;
+	}
+
+	public void setImc(double imc) {
+		this.imc = imc;
+	}
+
+	public double getIdadeMetabolica() {
+		return idadeMetabolica;
+	}
+
+	public void setIdadeMetabolica(double idadeMetabolica) {
+		this.idadeMetabolica = idadeMetabolica;
+	}
+
 	public Date getDataAvaliacao() {
 		return dataAvaliacao;
 	}
+
 	public void setDataAvaliacao(Date dataAvaliacao) {
 		this.dataAvaliacao = dataAvaliacao;
 	}
+
 	public User getUsuario() {
 		return usuario;
 	}
+
 	public void setUsuario(User usuario) {
 		this.usuario = usuario;
 	}
-	
+
 }

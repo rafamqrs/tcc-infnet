@@ -40,6 +40,17 @@ function userController($scope, $http) {
 			$scope.displayCreateContactButton = false;
 		});
 	}
+	
+	$scope.popularListaPagamento = function(){
+		var urlListaPagamentos = "http://localhost:8080/academiaDigital/protected/pagamento/listarPagamentos";
+		$http.get(urlListaPagamentos).success(function(data, status) {
+			$scope.listaPagamentos = data.pagamentos;
+		}).error(function(status) {
+			$scope.state = 'error';
+			console.log(status);
+			$scope.displayCreateContactButton = false;
+		});
+	}
 
 	$scope.populateTable = function(data) {
 		if (data.pagesCount > 0) {
@@ -142,7 +153,9 @@ function userController($scope, $http) {
 	}
 
 	$scope.handleErrorInDialogs = function(status) {
-		$("#loadingModal").modal('hide');
+		$("#addUserModal").modal('hide');
+		$("#deletar").modal('hide');
+
 		$scope.state = $scope.previousState;
 
 		// illegal access
@@ -276,4 +289,5 @@ function userController($scope, $http) {
 	}
 	
 	$scope.getContactList();
+	$scope.popularListaPagamento();
 }

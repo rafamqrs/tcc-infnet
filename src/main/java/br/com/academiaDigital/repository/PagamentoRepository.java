@@ -1,9 +1,9 @@
-package br.com.academiaDigital.service;
+package br.com.academiaDigital.repository;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import br.com.academiaDigital.model.Pagamento;
 
-public interface PagamentoRepository extends PagingAndSortingRepository<Pagamento, Integer> {
-	Pagamento findByPagamento(String pagamento);
+public interface PagamentoRepository extends
+		PagingAndSortingRepository<Pagamento, Integer> {
 }

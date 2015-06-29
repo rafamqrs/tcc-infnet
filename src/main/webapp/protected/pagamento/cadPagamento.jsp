@@ -74,14 +74,14 @@
 				<spring:message code="pagamento.emptyData.text" />
 			</p>
 		</div>
-		<div class="alert alert-danger-alt alert-dismissable"
+		<div class="alert alert-danger alert-dismissable"
 			ng-show="dangerMsg">
 			<span class="glyphicon glyphicon-certificate"></span>
 			<button type="button" class="close" data-dismiss="alert"
 				aria-hidden="true">X</button>
 			<strong><spring:message code="error.generic.text" /></strong>
 		</div>
-		<div class="alert alert-success-alt alert-dismissable"
+		<div class="alert alert-success alert-dismissable"
 			ng-show="infoMsg">
 			<span class="glyphicon glyphicon-certificate"></span>
 			<button type="button" class="close" data-dismiss="alert"
@@ -108,14 +108,14 @@
 						<td class="tdContactsCentered">{{pagamento.dataCadastro}}</td>
 						<td class="width15">
 							<div class="text-center">
-								<input type="hidden" value="{{contact.id}}" /> <a
-									href="#updateContactsModal"
-									ng-click="selectedContact(contact);" role="button"
+								<input type="hidden" value="{{pagamento.idPagamento}}" /> <a
+									href="#updatePagamentoModal" ng-click="selecionar(pagamento);"
+									role="button"
 									title="<spring:message code="update"/>&nbsp;<spring:message code="contact"/>"
 									class="btn btn-inverse" data-toggle="modal"> <i
 									class="glyphicon glyphicon-pencil"></i>
-								</a> <a href="#deletarExe"
-									ng-click="selectedExercicio(pagamento.idPagamento, pagamento.formaPagamento);"
+								</a> <a href="#deletar"
+									ng-click="selectedPagamento(pagamento.idPagamento, pagamento.formaPagamento);"
 									role="button"
 									title="<spring:message code="delete"/>&nbsp;<spring:message code="contact"/>"
 									class="glyphicon glyphicon-inverse" data-toggle="modal"> <i
@@ -158,8 +158,8 @@
 		</div>
 		<div
 			ng-class="{'text-center': displayCreateContactButton == true, 'none': displayCreateContactButton == false}">
-			<br /> <a href="#addExercicioModal" role="button"
-				ng-click="resetContact();"
+			<br /> <a href="#addPagamentoModal" role="button"
+				ng-click="resetPagamento();"
 				title="<spring:message code='create'/>&nbsp;<spring:message code='pagamento'/>"
 				class="btn btn-success" data-toggle="modal"> <i
 				class="glyphicon glyphicon-plus"></i> &nbsp;&nbsp;<spring:message
@@ -172,5 +172,4 @@
 	</div>
 </div>
 
-<script
-	src="<c:url value="/resources/js/pages/pagamento.js" />"></script>
+<script src="<c:url value="/resources/js/pages/pagamento.js" />"></script>

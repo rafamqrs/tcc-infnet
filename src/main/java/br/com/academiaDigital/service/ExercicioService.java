@@ -34,7 +34,7 @@ public class ExercicioService {
 	public void save(Exercicio exercicios) {
 		exercicioRepository.save(exercicios);
 	}
-
+	
 	@Secured("ROLE_ADMIN")
 	public void delete(int exercicioId) {
 		exercicioRepository.delete(exercicioId);

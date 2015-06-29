@@ -1,4 +1,5 @@
 function exerciciosController($scope, $http) {
+	
 	$scope.pageToGet = 0;
 
 	$scope.state = 'busy';
@@ -49,7 +50,7 @@ function exerciciosController($scope, $http) {
 				source : data.exercicios,
 				currentPage : $scope.pageToGet,
 				pagesCount : data.pagesCount,
-				totalContacts : data.totalContacts
+				totalContacts : data.totalUser
 			};
 			if ($scope.page.pagesCount <= $scope.page.currentPage) {
 				$scope.pageToGet = $scope.page.pagesCount - 1;
@@ -144,6 +145,8 @@ function exerciciosController($scope, $http) {
 
 	$scope.resetContact = function() {
 		$scope.user = {};
+		$scope.infoMsg = false;
+		$scope.dangerMsg = false;
 	};
 	// CREATE Exercicio
 	$scope.createExercicio = function(newExercicioForm) {
@@ -166,10 +169,12 @@ function exerciciosController($scope, $http) {
 
 		$scope.startDialogAjaxRequest();
 		$scope.infoMsg = false;
-		$http.post(url, $.param($scope.exercicio), config).success(function(data) {
-			$scope.infoMsg = true;
-			$scope.finishAjaxCallOnSuccess(data, "#addExercicioModal", false);
-		}).error(function(data, status, headers, config) {
+		$http.post(url, $.param($scope.exercicio), config).success(
+				function(data) {
+					$scope.infoMsg = true;
+					$scope.finishAjaxCallOnSuccess(data, "#addExercicioModal",
+							false);
+				}).error(function(data, status, headers, config) {
 			$scope.handleErrorInDialogs(status);
 		});
 	};

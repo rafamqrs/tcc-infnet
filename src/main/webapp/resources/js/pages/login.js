@@ -12,7 +12,7 @@ function loginController($scope, $location, $http) {
         .success(function (data) {
         	$scope.messageError = false;
         	$scope.messageSucess = true;
-            $scope.finishAjaxCallOnSuccess(data, "#addContactsModal", false);
+    		$("#loadingModal").modal('hide');
         })
         .error(function(data, status, headers, config) {
         	$scope.messageError = true;

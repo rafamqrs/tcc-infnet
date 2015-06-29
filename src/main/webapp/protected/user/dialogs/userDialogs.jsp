@@ -47,13 +47,24 @@
 								type="text" novalidate />
 						</div>
 					</div>
+					<c:if test="${pageContext.response.locale == 'pt'}">
+					
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12"
+								style="padding-bottom: 10px;">
+								<input class="form-control" ng-model="user.cpf"
+									placeholder="<spring:message code="user.cpf" />"
+									type="text" novalidate />
+							</div>
+						</div>
+					</c:if>
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12"
 							style="padding-bottom: 10px;">
 							<input class="form-control" type="date" id="dataNascimento"
 								name="input" ng-model="user.dataNascimento"
-								placeholder="<spring:message code='data'/>" min="1993-01-01"
-								required />
+								placeholder="<spring:message code='data'/>" min="1900-01-01"
+								novalidate />
 						</div>
 					</div>
 					<div class="row">
@@ -62,6 +73,14 @@
 							<input class="form-control" ng-model="user.telefone"
 								placeholder="<spring:message code="sample.phone" />" type="text"
 								novalidate />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12"
+							style="padding-bottom: 10px;">
+							<input class="form-control" ng-model="user.cep"
+								placeholder="<spring:message code="user.cep" />" type="text"
+								novalidate maxlength="8"/>
 						</div>
 					</div>
 					<div class="row">
@@ -90,26 +109,12 @@
 							</select>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-sm-9">
-							<label for="status"><spring:message code="user.formaPagamento" /></label>
-							<select class="form-control" id="pag" ng-model="user.formaPagamento"
-								novalidate>
-								<option value="Dinheiro"><spring:message code="user.dinheiro" /></option>
-								<option value="Debito"><spring:message code="user.debito" /></option>
-								<option value="Credito"><spring:message code="user.credito" /></option>
-							</select>
-						</div>
-					</div>
 				</div>
 				<div class="panel-footer" style="margin-bottom: -14px;">
 					<input type="submit" class="btn btn-success"
 						value="<spring:message code="create"/>"
-						ng-click="createUser(newUserForm);" />
-					<!--<span class="glyphicon glyphicon-ok"></span>-->
-					<input type="reset" class="btn btn-danger"
-						value="<spring:message code="reset"/>" />
-					<!--<span class="glyphicon glyphicon-remove"></span>-->
+						ng-click="createUser(newUserForm);" /> <input type="reset"
+						class="btn btn-danger" value="<spring:message code="reset"/>" />
 					<button style="float: right;" type="button"
 						class="btn btn-default btn-close" data-dismiss="modal">
 						<spring:message code="close" />
@@ -118,6 +123,7 @@
 		</div>
 	</div>
 </div>
+
 <div class="modal fade" id="deletar" tabindex="-1" role="dialog"
 	aria-labelledby="contactLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -142,10 +148,9 @@
 				<div class="modal-body" style="padding: 5px;">
 					<div class="row">
 						<center>
-						<spring:message code="delete.confirm" />
-						<br />
-						:&nbsp;{{name}}
-						</center> 
+							<spring:message code="delete.confirm" />
+							<br /> :&nbsp;{{name}}
+						</center>
 					</div>
 				</div>
 				<div class="panel-footer" style="margin-bottom: -14px;">

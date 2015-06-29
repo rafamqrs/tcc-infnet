@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div class="row-fluid" ng-controller="exerciciosController">
+<div class="row-fluid" ng-app='exercicioApp' ng-controller="exerciciosController">
 	<h2>
 		<p class="text-center">
 			<spring:message code='header.exercices' />
@@ -81,14 +81,14 @@
 				<spring:message code="exc.emptyData.text" />
 			</p>
 		</div>
-		<div class="alert alert-danger-alt alert-dismissable"
+		<div class="alert alert-danger alert-dismissable"
 			ng-show="dangerMsg">
 			<span class="glyphicon glyphicon-certificate"></span>
 			<button type="button" class="close" data-dismiss="alert"
 				aria-hidden="true">X</button>
 			<strong><spring:message code="error.generic.text" /></strong>
 		</div>
-		<div class="alert alert-success-alt alert-dismissable"
+		<div class="alert alert-success alert-dismissable"
 			ng-show="infoMsg">
 			<span class="glyphicon glyphicon-certificate"></span>
 			<button type="button" class="close" data-dismiss="alert"
@@ -103,8 +103,9 @@
 					<tr>
 						<th scope="col"><spring:message code="exc.nome" /></th>
 						<th scope="col"><spring:message code="exc.descricao" /></th>
-						<th scope="col"><spring:message code="exc.qtdrepeticao" /></th>
 						<th scope="col"><spring:message code="exc.tipomuscular" /></th>
+						<th scope="col"><spring:message code="exc.qtdrepeticao" /></th>
+						<th scope="col"><spring:message code="exc.qtdexercicio" /></th>
 						<th scope="col"><spring:message code="exc.peso" /></th>
 						<th scope="col"><spring:message code="acao" /></th>
 					</tr>
@@ -113,8 +114,9 @@
 					<tr ng-repeat="exercicio in page.source">
 						<td class="tdContactsCentered">{{exercicio.nome}}</td>
 						<td class="tdContactsCentered">{{exercicio.descricao}}</td>
-						<td class="tdContactsCentered">{{exercicio.qtdRepeticao}}</td>
 						<td class="tdContactsCentered">{{exercicio.tipoMuscular}}</td>
+						<td class="tdContactsCentered">{{exercicio.qtdRepeticao}}</td>
+						<td class="tdContactsCentered">{{exercicio.numExercicios}}</td>
 						<td class="tdContactsCentered">{{exercicio.peso}}</td>
 						<td class="width15">
 							<div class="text-center">

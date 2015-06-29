@@ -26,7 +26,14 @@
 				<div style="text-align: right;">
 					<spring:message code="login.error" />
 				</div>
+			</div> 
+			<div style="text-align: right;" ng-show='messageError'>
+				<spring:message code="error.generic.text" />
 			</div>
+			<div style="text-align: right;" ng-show='messageSucess'>
+				<spring:message code="login.senhaenviada" />
+			</div>
+
 			<div>
 				<label><spring:message code='sample.username' /></label> <input
 					type="text" name="j_username" id="j_username" required
@@ -54,27 +61,35 @@
 
 <!-- MODAL ESQUECI A SENHA -->
 
-<div class="modal hide" id="myModal">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">x</button>
-		<h3>
-			<spring:message code="titulo.recupsenha" />
-		</h3>
-	</div>
-	<div class="modal-body">
-		<form method="post" name="login_form" ng-controller="loginController">
-			<p>
-				<input type="text" class="span3" ng-model="emailRecuperar"
-					placeholder="<spring:message code='plch.forgotpass'/>">
-			</p>
-			<p>
 
-				<input type="submit" class="btn btn-inverse"
-					ng-click="recuperarSenha()"
-					value='<spring:message code="botao.recuperar"/>' />
-			</p>
-		</form>
-	</div>
-</div>
+<!-- DELETAR -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	aria-labelledby="contactLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<button type="button" class="close" data-dismiss="modal">x</button>
+				<h3>
+					<spring:message code="titulo.recupsenha" />
+				</h3>
+				<form method="post" name="login_form"
+					ng-controller="loginController">
 
-<script src="<c:url value='/resources/js/pages/login.js' />"></script>
+
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-sm-6"
+							style="padding-bottom: 10px;">
+							<input class="form-control" ng-model="emailRecuperar"
+								placeholder="<spring:message code='plch.forgotpass'/>"
+								type="text" novalidate required="required" />
+						</div>
+					</div>
+					<input type="submit" class="btn btn-inverse"
+						ng-click="recuperarSenha()"
+						value='<spring:message code="botao.recuperar"/>' />
+					</p>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="<c:url value='/resources/js/pages/login.js' />"></script>

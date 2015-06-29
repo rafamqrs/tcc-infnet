@@ -20,6 +20,10 @@ public class UserService {
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
+	
+	public User findById(int id){
+		return userRepository.findOne(id);
+	}
 
 	@Transactional(readOnly = true)
 	public UserListVO findAll(int page, int maxResults) {

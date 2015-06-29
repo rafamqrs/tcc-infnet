@@ -48,12 +48,12 @@
 						<div class="col-lg-2 col-md-12 col-sm-12"
 							style="padding-bottom: 10px;">
 							<input class="form-control" ng-model="exercicio.qtdRepeticao"
-								type="number" novalidate />
+								type="number" novalidate min="0" />
 						</div>
 						<div class="col-lg-2 col-md-12 col-sm-12"
 							style="padding-bottom: 10px;">
-							<input class="form-control" ng-model="exercicio.qtdExercicio"
-								type="number" novalidate />
+							<input class="form-control" ng-model="exercicio.numExercicios"
+								type="number" novalidate min="0" />
 						</div>
 					</div>
 					<div class="row">
@@ -61,10 +61,13 @@
 							style="padding-bottom: 10px;">
 							<input class="form-control" ng-model="exercicio.peso"
 								placeholder="<spring:message code="exc.peso" />" type="number"
-								novalidate />
+								novalidate min="0" />
 						</div>
 					</div>
 					<div class="row">
+
+						<div ng-dropdown-multiselect="" options="example1data"
+							selected-model="example1model"></div>
 
 						<div class="col-lg-12 col-md-12 col-sm-12">
 							<textarea style="resize: vertical;" class="form-control"
@@ -115,16 +118,16 @@
 			<form name="deleteExercicioForm">
 				<div class="modal-body" style="padding: 5px;">
 					<div class="row">
-						<center>
-						<spring:message code="delete.confirm" />
-						<br />
-						&nbsp;{{name}}
-						</center> 
+						<div align="center">
+							<spring:message code="delete.confirm" />
+							<br /> &nbsp;{{name}}
+						</div>
 					</div>
 				</div>
 				<div class="panel-footer" style="margin-bottom: -14px;">
 					<input type="submit" class="btn btn-danger"
-						value="<spring:message code="delete"/>" ng-click="deleteExercicio();" />
+						value="<spring:message code="delete"/>"
+						ng-click="deleteExercicio();" />
 					<button style="float: right;" type="button"
 						class="btn btn-default btn-close" data-dismiss="modal">
 						<spring:message code="close" />
