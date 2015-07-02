@@ -1,7 +1,7 @@
 PROJETO INFNET JAVA
 ===========
 
-### BuildStatus ---> [![Build Status](https://travis-ci.org/uaihebert/uaicontacts.svg?branch=master)](https://travis-ci.org/uaihebert/uaicontacts)
+### BuildStatus ---> [![Build Status](https://travis-ci.org/rafamqrs/tcc-infnet.svg?branch=master)](https://travis-ci.org/rafamqrs/tcc-infnet.svg)
 
 
 This project is a full web application with the following technologies:
