@@ -13,7 +13,7 @@ function pagamentoController($scope, $http) {
 	$scope.displayValidationError = false;
 	$scope.displaySearchMessage = false;
 	$scope.displaySearchButton = false;
-	$scope.displayCreateContactButton = false;
+	$scope.displayCreateContactButton = true;
 	$scope.dangerMsg = false;
 	$scope.infoMsg = false;
 
@@ -55,6 +55,7 @@ function pagamentoController($scope, $http) {
 		$http.get(urlListaPagamentos).success(function(data, status) {
 			if(data.totalFinanceiro > 0){
 				$scope.state = 'list';
+				$scope.displayCreateContactButton = true;
 				$scope.page = {
 					source : data.financeiros,
 					currentPage : $scope.pageToGet,

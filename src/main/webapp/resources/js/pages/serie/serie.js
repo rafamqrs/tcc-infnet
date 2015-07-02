@@ -18,7 +18,6 @@ function serieController($scope, $http) {
 	$scope.dangerMsg = false;
 
 	$scope.serie = {}
-	$scope.serie.exercicio = {}
 
 	$scope.searchFor = ""
 
@@ -32,6 +31,7 @@ function serieController($scope, $http) {
 			$scope.displayCreateContactButton = false;
 		});
 	}
+
 	$scope.getContactList = function() {
 		var url = $scope.url;
 		$scope.lastAction = 'list';
@@ -48,6 +48,61 @@ function serieController($scope, $http) {
 			$scope.finishAjaxCallOnSuccess(data, null, false);
 		}).error(function() {
 			$scope.state = 'error';
+			$scope.displayCreateContactButton = false;
+		});
+	}
+
+	$scope.detalhesExercicio = function(id) {
+		var urlListaExerId = "http://localhost:8080/academiaDigital/protected/serie/listarSerie/"
+				+ id;
+		$http.get(urlListaExerId).success(function(data, status) {
+			$scope.state = 'list';
+			if (data != undefined) {
+				$scope.exercicios = data.exercicios;
+			}
+		}).error(function(status) {
+			$scope.state = 'error';
+			console.log(status);
+			$scope.displayCreateContactButton = false;
+		});
+	}
+
+	$scope.detalhesUsuario = function(id) {
+		var urlListaExerId = "http://localhost:8080/academiaDigital/protected/serie/listarSerie/"
+				+ id;
+		$http.get(urlListaExerId).success(function(data, status) {
+			$scope.state = 'list';
+			if (data != undefined) {
+				$scope.exercicios = data.alunos;
+			}
+		}).error(function(status) {
+			$scope.state = 'error';
+			console.log(status);
+			$scope.displayCreateContactButton = false;
+		});
+	}
+
+	$scope.listarSerie = function() {
+		var urlListaPagamentos = "http://localhost:8080/academiaDigital/protected/serie/listarSerie";
+		$http.get(urlListaPagamentos).success(function(data, status) {
+			$scope.state = 'list';
+			if (data != undefined) {
+				$scope.displayCreateContactButton = true;
+				$scope.page = {
+					source : data.series,
+					currentPage : $scope.pageToGet,
+					pagesCount : data.pagesCount,
+					totalContacts : data.totalContacts
+				};
+				if ($scope.page.pagesCount <= $scope.page.currentPage) {
+					$scope.pageToGet = $scope.page.pagesCount - 1;
+					$scope.page.currentPage = $scope.page.pagesCount - 1;
+				}
+
+			}
+		}).error(function(status) {
+			$scope.state = 'error';
+			console.log(status);
 			$scope.displayCreateContactButton = false;
 		});
 	}
@@ -165,7 +220,7 @@ function serieController($scope, $http) {
 
 		$scope.lastAction = 'create';
 
-		var url = $scope.url;
+		var url = $scope.url + "criar";
 
 		var config = {
 			headers : {
@@ -173,17 +228,37 @@ function serieController($scope, $http) {
 			}
 		};
 
+		// Writing it to the server
+		//		
+		var dataObj = {
+			nome : $scope.serie.nome,
+			tipoSerie : $scope.serie.tipoSerie,
+			exercicios : $scope.serie.exercicios
+		};
+
 		$scope.addSearchParametersIfNeeded(config, false);
 
 		$scope.startDialogAjaxRequest();
 		$scope.infoMsg = false;
-		$http.post(url, $.param($scope.serie), config).success(function(data) {
+		$http.post(url, dataObj).success(function(data) {
 			$scope.infoMsg = true;
-			$scope.finishAjaxCallOnSuccess(data, "#addUsersModal", false);
+			$scope.finishAjaxCallOnSuccess(data, "#addSerieModal", false);
 		}).error(function(data, status, headers, config) {
 			$scope.handleErrorInDialogs(status);
 		});
 	};
+
+	$scope.popularListaUsuario = function() {
+		var urlListaPagamentos = "http://localhost:8080/academiaDigital/protected/user/listarUsuarios";
+
+		$http.get(urlListaPagamentos).success(function(data, status) {
+			$scope.listaUsuarios = data.users;
+		}).error(function(status) {
+			$scope.state = 'error';
+			console.log(status);
+			$scope.displayCreateContactButton = false;
+		});
+	}
 
 	$scope.selectedSerie = function(idusuario, name) {
 		$scope.name = name;
@@ -210,6 +285,7 @@ function serieController($scope, $http) {
 
 		$http.get(url, config).success(
 				function(data) {
+					$scope.infoMsg = true;
 					$scope.finishAjaxCallOnSuccess(data,
 							"#searchContactsModal", isPagination);
 					$scope.displaySearchMessage = true;
@@ -252,6 +328,8 @@ function serieController($scope, $http) {
 		$scope.displaySearchMessage = false;
 	}
 
-	$scope.getContactList();
 	$scope.popularListaExercicios();
+	$scope.popularListaUsuario();
+	$scope.listarSerie();
+
 }

@@ -7,6 +7,10 @@
 	<artifactId>academiaDigital</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
+	<properties>
+		<jackson.version>1.9.10</jackson.version>
+	</properties>
+
 
 	<build>
 		<finalName>academiaDigital</finalName>
@@ -153,13 +157,13 @@
 			<artifactId>aspectjrt</artifactId>
 			<version>1.7.0</version>
 		</dependency>
-
 		<!-- JSon -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-jaxrs</artifactId>
 			<version>1.8.2</version>
 		</dependency>
+
 
 		<!-- Tiles -->
 		<dependency>

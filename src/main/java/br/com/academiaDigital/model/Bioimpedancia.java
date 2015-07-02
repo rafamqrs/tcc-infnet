@@ -17,13 +17,47 @@ public class Bioimpedancia {
 	private int idBio;
 	private Date dataAvaliacao;
 	private double peso;
-	private double ffm;
-	private double massaMascular;
+	private double gorduraCorporal;
+	private double massaMagra;
+	private double massaGorda;
 	private double imc;
 	private double idadeMetabolica;
+	private double aguaCorporal;
 	@OneToOne
 	@JoinColumn(name = "bioimpedancia")
 	private User usuario;
+
+	public double getGorduraCorporal() {
+		return gorduraCorporal;
+	}
+
+	public void setGorduraCorporal(double gorduraCorporal) {
+		this.gorduraCorporal = gorduraCorporal;
+	}
+
+	public double getMassaMagra() {
+		return massaMagra;
+	}
+
+	public void setMassaMagra(double massaMagra) {
+		this.massaMagra = massaMagra;
+	}
+
+	public double getMassaGorda() {
+		return massaGorda;
+	}
+
+	public void setMassaGorda(double massaGorda) {
+		this.massaGorda = massaGorda;
+	}
+
+	public double getAguaCorporal() {
+		return aguaCorporal;
+	}
+
+	public void setAguaCorporal(double aguaCorporal) {
+		this.aguaCorporal = aguaCorporal;
+	}
 
 	public int getIdBio() {
 		return idBio;
@@ -39,22 +73,6 @@ public class Bioimpedancia {
 
 	public void setPeso(double peso) {
 		this.peso = peso;
-	}
-
-	public double getFfm() {
-		return ffm;
-	}
-
-	public void setFfm(double ffm) {
-		this.ffm = ffm;
-	}
-
-	public double getMassaMascular() {
-		return massaMascular;
-	}
-
-	public void setMassaMascular(double massaMascular) {
-		this.massaMascular = massaMascular;
 	}
 
 	public double getImc() {

@@ -16,9 +16,14 @@ public class ExercicioListVO {
 
 	public ExercicioListVO(int totalPages, long totalElements,
 			List<Exercicio> content) {
-		this.pagesCount = totalPages;
-		this.exercicios = content;
-		this.totalUser = totalElements;
+		try {
+			this.pagesCount = totalPages;
+			this.exercicios = content;
+			this.totalUser = totalElements;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public int getPagesCount() {

@@ -11,7 +11,7 @@ public class RunSchedule {
 	@Autowired
 	private FinanceiroService financeiroService;
 	
-	@Scheduled(fixedDelay = 10000)
+	@Scheduled(fixedDelay = 100000)
 	public void scheduledJob() {
 		System.out.println("Verificando os usuários em atraso");
 	}

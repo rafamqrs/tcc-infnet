@@ -7,7 +7,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.academiaDigital.model.Aluno;
 import br.com.academiaDigital.model.User;
+import br.com.academiaDigital.repository.AlunoRepository;
 import br.com.academiaDigital.repository.UserRepository;
 import br.com.academiaDigital.vo.UserListVO;
 
@@ -16,12 +18,14 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private AlunoRepository alunoRepository;
 
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
-	
-	public User findById(int id){
+
+	public User findById(int id) {
 		return userRepository.findOne(id);
 	}
 
@@ -77,5 +81,9 @@ public class UserService {
 
 	public void delete(int contactId) {
 		userRepository.delete(contactId);
+	}
+
+	public void criarAluno(Aluno aluno) {
+		alunoRepository.save(aluno);
 	}
 }

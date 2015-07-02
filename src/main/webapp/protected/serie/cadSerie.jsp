@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <div class="row-fluid" ng-controller="serieController">
 	<h2>
 		<p class="text-center">
@@ -24,15 +26,13 @@
 		</div>
 	</h4>
 
-	<div class="alert alert-danger-alt alert-dismissable"
-		ng-show="dangerMsg">
+	<div class="alert alert-danger alert-dismissable" ng-show="dangerMsg">
 		<span class="glyphicon glyphicon-certificate"></span>
 		<button type="button" class="close" data-dismiss="alert"
 			aria-hidden="true">X</button>
 		<strong><spring:message code="error.generic.text" /></strong>
 	</div>
-	<div class="alert alert-success-alt alert-dismissable"
-		ng-show="infoMsg">
+	<div class="alert alert-success alert-dismissable" ng-show="infoMsg">
 		<span class="glyphicon glyphicon-certificate"></span>
 		<button type="button" class="close" data-dismiss="alert"
 			aria-hidden="true">X</button>
@@ -104,15 +104,54 @@
 				<thead>
 					<tr>
 						<th scope="col"><spring:message code="serie.nome" /></th>
+						<th scope="col"><spring:message code="serie.type" /></th>
 						<th scope="col"><spring:message code="serie.exercicio" /></th>
-						<th scope="col"><spring:message code="serie.user" /></th>
+						<th scope="col"><spring:message code="acao" /></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="serie in page.source">
 						<td class="tdContactsCentered">{{serie.nome}}</td>
 						<td class="tdContactsCentered">{{serie.tipoSerie}}</td>
-						<td class="tdContactsCentered">{{serie.nome}}</td>
+						<td class="tdContactsCentered">
+							<div class="accordion">
+								<div class="accordion-group">
+									<div class="accordion-heading country">
+										<a class="accordion-toggle" data-toggle="collapse"
+											href="#country1" ng-click="detalhesExercicio(serie.idSerie)"><spring:message code="link" /></a>
+									</div>
+									<div id="country1" class="accordion-body collapse">
+										<div class="accordion-inner">
+											<table class="table table-striped table-condensed">
+												<thead>
+													<tr>
+														<th scope="col"><spring:message code="exc.nome" /></th>
+														<th scope="col"><spring:message code="exc.descricao" /></th>
+														<th scope="col"><spring:message
+																code="exc.tipomuscular" /></th>
+														<th scope="col"><spring:message
+																code="exc.qtdrepeticao" /></th>
+														<th scope="col"><spring:message
+																code="exc.qtdexercicio" /></th>
+														<th scope="col"><spring:message code="exc.peso" /></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="exercicio in exercicios">
+														<td class="tdContactsCentered">{{exercicio.nome}}</td>
+														<td class="tdContactsCentered">{{exercicio.descricao}}</td>
+														<td class="tdContactsCentered">{{exercicio.tipoMuscular}}</td>
+														<td class="tdContactsCentered">{{exercicio.qtdRepeticao}}</td>
+														<td class="tdContactsCentered">{{exercicio.numExercicios}}</td>
+														<td class="tdContactsCentered">{{exercicio.peso}}</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
 						<td class="width15">
 							<div class="text-center">
 								<input type="hidden" value="{{serie.idSerie}}" /> <a
@@ -163,17 +202,18 @@
 				</button>
 			</div>
 		</div>
-		<div
-			ng-class="{'text-center': displayCreateContactButton == true, 'none': displayCreateContactButton == false}">
-			<br /> <a href="#addSerieModal" role="button"
-				ng-click="resetContact();"
-				title="<spring:message code='create'/>&nbsp;<spring:message code='user'/>"
-				class="btn btn-success" data-toggle="modal"> <i
-				class="glyphicon glyphicon-plus"></i> &nbsp;&nbsp;<spring:message
-					code="create" />&nbsp;<spring:message code="header.serie" />
-			</a>
-		</div>
-
+		<sec:authorize ifAnyGranted="ROLE_ADMIN">
+			<div
+				ng-class="{'text-center': displayCreateContactButton == true, 'none': displayCreateContactButton == false}">
+				<br /> <a href="#addSerieModal" role="button"
+					ng-click="resetContact();"
+					title="<spring:message code='create'/>&nbsp;<spring:message code='user'/>"
+					class="btn btn-success" data-toggle="modal"> <i
+					class="glyphicon glyphicon-plus"></i> &nbsp;&nbsp;<spring:message
+						code="create" />&nbsp;<spring:message code="header.serie" />
+				</a>
+			</div>
+		</sec:authorize>
 		<jsp:include page="dialogs/serieDialogs.jsp" />
 
 	</div>

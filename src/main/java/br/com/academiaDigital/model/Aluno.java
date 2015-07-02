@@ -3,8 +3,6 @@ package br.com.academiaDigital.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -14,8 +12,7 @@ public class Aluno {
 	@Id
 	@GeneratedValue
 	private int idAluno;
-	@ManyToOne
-	@JoinColumn(name = "idSerie")
+	@OneToOne
 	private Serie serie;
 	@OneToOne
 	private User user;

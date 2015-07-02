@@ -1,8 +1,10 @@
 package br.com.academiaDigital.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -10,6 +12,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.IndexColumn;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name = "serie")
@@ -21,21 +30,14 @@ public class Serie {
 	private String nome;
 	private String tipoSerie;
 	private boolean enable;
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@ManyToMany
 	@JoinTable(name = "exercicio_serie", joinColumns = @JoinColumn(name = "idSerie"), inverseJoinColumns = @JoinColumn(name = "idExercicio"))
 	private List<Exercicio> exercicios;
-	@OneToMany(mappedBy = "serie")
-	private List<Aluno> alunos;
-	@javax.persistence.Transient
-	private List<String> idExercicios;
-
-	public List<String> getIdExercicios() {
-		return idExercicios;
-	}
-
-	public void setIdExercicios(List<String> idExercicios) {
-		this.idExercicios = idExercicios;
-	}
+	@Temporal(TemporalType.DATE)
+	private Date dataCadastroSerie;
+	@Transient
+	private int idUsuario;
 
 	public Serie() {
 	}
@@ -54,14 +56,6 @@ public class Serie {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public List<Aluno> getAlunos() {
-		return alunos;
-	}
-
-	public void setAlunos(List<Aluno> alunos) {
-		this.alunos = alunos;
 	}
 
 	public List<Exercicio> getExercicios() {
@@ -87,4 +81,21 @@ public class Serie {
 	public void setEnable(boolean enable) {
 		this.enable = enable;
 	}
+
+	public Date getDataCadastroSerie() {
+		return dataCadastroSerie;
+	}
+
+	public void setDataCadastroSerie(Date dataCadastroSerie) {
+		this.dataCadastroSerie = dataCadastroSerie;
+	}
+
+	public int getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
 }

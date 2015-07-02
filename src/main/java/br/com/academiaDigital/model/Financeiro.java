@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 @Entity
@@ -19,7 +21,9 @@ public class Financeiro {
 	@GeneratedValue
 	private int idFinanceiro;
 	private String situacaoFinanceira;
+	@Temporal(TemporalType.DATE)
 	private Date dataPagamento;
+	@Temporal(TemporalType.DATE)
 	private Date dataVencimento;
 	private long quantidadeDiasEmAtraso;
 	@OneToOne

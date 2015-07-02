@@ -49,15 +49,24 @@
 								<label>Multiple selects</label>
 
 								<div class="form-group input-group">
-									<select class="form-control" ng-model="serie.idExercicios"
-										ng-options="p.idExercicio as p.nome for p in listaPagamentos"
-										multiple="multiple" integer>
+									<select class="form-control" ng-model="serie.exercicios"
+										ng-options="exercicios.nome for exercicios in listaPagamentos"
+										multiple="multiple">
 										<option value=""><spring:message code="selecione" /></option>
 									</select> <span class="input-group-btn"><button type="button"
 											class="btn btn-default btn-add">+</button></span>
 								</div>
 							</div>
-
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-9">
+							<label for="status"><spring:message
+									code="financeiro.customer" /></label> <select class="form-control"
+								ng-model="serie.idUsuario"
+								ng-options="p.id as p.name for p in listaUsuarios">
+								<option value=""><spring:message code="selecione" /></option>
+							</select>
 						</div>
 					</div>
 					<div class="panel-footer" style="margin-bottom: -14px;">

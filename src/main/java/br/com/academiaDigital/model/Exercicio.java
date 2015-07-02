@@ -19,8 +19,6 @@ public class Exercicio {
 	private int numExercicios;
 	private String tipoMuscular;
 	private float peso;
-	@ManyToMany(mappedBy="exercicios", fetch=FetchType.EAGER)
-	private List<Serie> series;
 
 	public Exercicio() {
 		// TODO Auto-generated constructor stub
@@ -90,11 +88,4 @@ public class Exercicio {
 		this.idExercicio = idExercicio;
 	}
 
-	public List<Serie> getSeries() {
-		return series;
-	}
-
-	public void setSeries(List<Serie> series) {
-		this.series = series;
-	}
 }

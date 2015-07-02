@@ -31,9 +31,8 @@
 										code="header.pagamento" /></a></li>
 							<li><a href="<c:url value='/protected/financeiro'/>"><spring:message
 										code="financeiro" /></a></li>
-					
-						</ul>
-					</li>
+
+						</ul></li>
 					<li
 						ng-class="{'gray': activeURL == 'user', '': activeURL != 'user'}"><a
 						title='<spring:message code="header.user"/>'
@@ -49,12 +48,23 @@
 										code="header.serie" /></a></li>
 							<li><a href="<c:url value='/protected/exercicio'/>"><spring:message
 										code="header.exercices" /></a></li>
-							<li><a href="<c:url value='/protected/avaliacao'/>"><spring:message
+							<li><a href="<c:url value='/protected/biopendancia'/>"><spring:message
 										code="header.avaliacao" /></a></li>
 						</ul></li>
 
 				</sec:authorize>
-
+				<sec:authorize ifAnyGranted="ROLE_USER">
+					<li class="dropdown"
+						ng-class="{'gray': activeURL == 'pagamento', '': activeURL != 'pagamento'}"><a
+						class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message
+								code="header.adm" /> <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="<c:url value='/protected/financeiro'/>"><spring:message
+										code="financeiro" /></a></li>
+							<li><a href="<c:url value='/protected/serie'/>"><spring:message
+										code="header.serie" /></a></li>
+						</ul></li>
+				</sec:authorize>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 

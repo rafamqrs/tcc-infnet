@@ -1,5 +1,11 @@
 package br.com.academiaDigital.service;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,12 +20,14 @@ import br.com.academiaDigital.vo.SerieListVO;
 @Service
 @Transactional
 public class SerieService {
-
 	@Autowired
 	private SerieRepository serieRepository;
+	@PersistenceContext(unitName = "entityManagerFactory")
+	private EntityManager entityManager;
 
 	@Transactional(readOnly = true)
 	public SerieListVO findAll(int page, int maxResults) {
+
 		Page<Serie> result = executeQueryFindAll(page, maxResults);
 
 		if (shouldExecuteSameQueryInLastPage(page, result)) {
@@ -28,7 +36,7 @@ public class SerieService {
 		}
 		return buildResult(result);
 	}
-	
+
 	public void save(Serie serie) {
 		serieRepository.save(serie);
 	}
@@ -65,5 +73,15 @@ public class SerieService {
 
 	private Sort sortByNameASC() {
 		return new Sort(Sort.Direction.ASC, "nome");
+	}
+
+	public List<Serie> findAll() {
+		Query query = entityManager.createQuery("SELECT e FROM Serie e");
+		List<Serie> serie = (List<Serie>) query.getResultList();
+		return serie;
+	}
+
+	public Serie findById(int id) {
+		return serieRepository.findOne(id);
 	}
 }

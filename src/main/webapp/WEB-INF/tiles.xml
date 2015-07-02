@@ -44,6 +44,10 @@
 	<definition name="financeiroList" extends="master.page">
 		<put-attribute name="body" value="/protected/financeiro/cadFinanceiro.jsp" />
 	</definition>
+	<!-- Biopendancia -->
+	<definition name="biopendanciaList" extends="master.page">
+		<put-attribute name="body" value="/protected/biopendancia/cadBio.jsp" />
+	</definition>
 	<!-- LOGIN -->
 	<definition name="login" extends="master.page">
 		<put-attribute name="header" value="" />

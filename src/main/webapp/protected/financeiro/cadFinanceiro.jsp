@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <div class="row-fluid" ng-controller="pagamentoController">
 	<h2>
 		<p class="text-center">
@@ -160,17 +162,18 @@
 				</button>
 			</div>
 		</div>
-		<div
-			ng-class="{'text-center': displayCreateContactButton == true, 'none': displayCreateContactButton == false}">
-			<br /> <a href="#addFinanceiroModal" role="button"
-				ng-click="resetFinanceiro();"
-				title="<spring:message code='create'/>&nbsp;<spring:message code='pagamento'/>"
-				class="btn btn-success" data-toggle="modal"> <i
-				class="glyphicon glyphicon-plus"></i> &nbsp;&nbsp;<spring:message
-					code="create" />
-			</a>
-		</div>
-
+		<sec:authorize ifAnyGranted="ROLE_ADMIN">
+			<div
+				ng-class="{'text-center': displayCreateContactButton == true, 'none': displayCreateContactButton == false}">
+				<br /> <a href="#addFinanceiroModal" role="button"
+					ng-click="resetFinanceiro();"
+					title="<spring:message code='create'/>&nbsp;<spring:message code='pagamento'/>"
+					class="btn btn-success" data-toggle="modal"> <i
+					class="glyphicon glyphicon-plus"></i> &nbsp;&nbsp;<spring:message
+						code="create" />
+				</a>
+			</div>
+		</sec:authorize>
 		<jsp:include page="dialogs/financeiroDialogs.jsp" />
 
 	</div>

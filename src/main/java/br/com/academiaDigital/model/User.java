@@ -25,7 +25,7 @@ public class User {
 	private int idUsuario;
 	private String email;
 	private String name;
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 	private String endereco;
 	private String cpf;
